@@ -30,13 +30,25 @@ var player = {
 }
 
 var computer = {
-    hiddenWords: ["word", "another word"],
+    hiddenWords: ["first word", "another word"],
     chosenWord: "",
-
+    hiddenLetters: '',
+    space: ' ',
+    
     chooseWord: function () {
         chosenWord = this.hiddenWords[Math.floor(Math.random() * this.hiddenWords.length)];
-        console.log(this.chosenWord);
-    }
+        console.log(chosenWord);
+    },
+    disguiseWord: function (word) {
+        for (i = 0; i < word.length; i++) {
+            if (this.space.includes(word[i])) {
+                this.hiddenLetters += word[i];
+            } else {
+                this.hiddenLetters += "-";
+            }
+        }
+        console.log(this.hiddenLetters);
+    },
 }
 
 const resetGame = function () {
@@ -45,7 +57,15 @@ const resetGame = function () {
     player.clearGuesses();
 };
 
-// method to hide letters in winning word
+// FIXME method to unhide hidden letters
+const checkCorrectGuess = function (guess) {
+    if (guess.includes(chosenWord)) {
+                hiddenLetters = hiddenLetters.replace(hiddenLetters.indexOf(i), player.userGuess);
+            }
+            
+
+}
+
 // method to check for incorrect letters and update guessesLeft
 // if else method to check for game won or lost
 
@@ -54,16 +74,19 @@ const updateDOM = function () {
     document.querySelector("#losses").innerHTML = player.losses;
     document.querySelector("#guesses-remaining").innerHTML = player.guessesLeft;
     document.querySelector("#guesses").innerHTML = player.guesses.join(", ");
-    
+    document.querySelector("#hidden-word").innerHTML = hiddenLetters;
 }
 
 // Start Game
 resetGame();
+computer.disguiseWord(this.chosenWord);
+document.querySelector("#hidden-word").innerHTML = computer.hiddenLetters;
 
 document.onkeyup = function (event) {
     var userGuess = event.key.toLowerCase();
     player.isLetter(userGuess);
     player.checkDuplicateGuess(userGuess);
     player.addGuess(userGuess);
+    computer.disguiseWord(this.chosenWord);
     updateDOM();
 }

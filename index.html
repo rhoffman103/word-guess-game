@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Hangman Game</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-    <link href="assets/css/style.css" rel="stylesheet" type="text/css">
+    <!-- <link href="assets/css/style.css" rel="stylesheet" type="text/css"> -->
     
 </head>
 <body>
@@ -20,10 +20,11 @@
         <div class="game-play col-6-md col-12-xs">
             <h3>Press a key to guess the word</h3>
             <p>Wins: <span id="wins"></span></p>
+            <p>Losses: <span id="losses"></span></p>
             <p>Current Word</p>
-            <p id="hidden-word"></p>
-            <p>Number of guesses remaining</p>
-            <span id="guesses-remaining"></span>
+            <p><span id="hidden-word"></span></p>
+            <p>Number of guesses remaining: <span id="guesses-remaining"></span></p>
+            
             <p>Letters already guessed</p>
             <span id="guessed"></span>
         </div>
