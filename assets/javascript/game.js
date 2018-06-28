@@ -11,7 +11,9 @@ var player = {
         this.guesses.length = 0;
     },
     addGuess: function (guess) {
-        this.guesses.push(guess)
+        if (validGuess) {
+            this.guesses.push(guess)
+        }
     },
     checkDuplicateGuess: function (guess) {
         if (this.guesses.indexOf(guess) >= 0) {
@@ -20,15 +22,16 @@ var player = {
             duplicateGuess = false;
         }
     },
-    // isLetter: function (guess) {
-    //     if (this.letters.indexOf(guess >= 0)) {
-    //         validGuess = true;
-    //     } else {
-    //         validGuess = false;
-    // //FIXME alert does not pop up
-    //         alert("Choose a letter!")
-    //     }
-    // }
+    isLetter: function (guess) {
+        if (this.letters.includes(guess)) {
+            validGuess = true;
+            console.log("valid guess is true");
+        } else {
+            validGuess = false;
+            console.log("valid guess is false");
+            alert("Choose a letter!");
+        }
+    }
 }
 
 var computer = {
@@ -62,20 +65,8 @@ const resetGame = function () {
     updateDOM();
 };
 
-const isLetter = function (guess) {
-    if (player.letters.indexOf(guess >= 0)) {
-        player.validGuess = true;
-        console.log("valid guess is true");
-    } else {
-        player.validGuess = false;
-        console.log("valid guess is false");
-//FIXME alert does not pop up
-        alert("Choose a letter!")
-    }
-}
-
 // method to unhide correctly guessed letters
-const checkCorrectGuess = function (guess) {
+const checkCorrectGuess = function () {
     var space = " ";
     computer.hiddenLetters = "";
 
@@ -90,7 +81,6 @@ const checkCorrectGuess = function (guess) {
     }
 };
 
-// method to check for incorrect letters and update guessesLeft
 // if else method to check for game won or lost
 const checkGameOver = function () {
     if (!computer.hiddenLetters.includes("-")) {
@@ -105,8 +95,9 @@ const checkGameOver = function () {
     }
 };
 
+// method to check for incorrect letters and update guessesLeft
 const checkIncorrectGuess = function (guess) {
-    if (!chosenWord.includes(guess)) {
+    if (!chosenWord.includes(guess) && (validGuess)) {
         --player.guessesLeft;
     }
 };
@@ -124,16 +115,11 @@ resetGame();
 
 document.onkeyup = function (event) {
     var userGuess = event.key.toLowerCase();
-    isLetter(userGuess);
+    player.isLetter(userGuess);
     player.checkDuplicateGuess(userGuess);
     player.addGuess(userGuess);
     checkCorrectGuess();
     checkIncorrectGuess(userGuess);
     checkGameOver();
     updateDOM();
-    if (validGuess) {
-        console.log("Is letter is true");
-    } else if (!validGuess) {
-        console.log("isLetter is False");
-    }
 }
