@@ -1,0 +1,38 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-image: url(../images/Traveler-Background.jpg);
+    background-repeat: no-repeat;
+    background-size: 2200px 1400px;
+    background-position: 50% 55%;
+    font-family: 'Arial Narrow Bold', sans-serif;
+    height: 100%;
+}
+
+h1 {
+    letter-spacing: 1.5rem;
+    font-size: 4rem;
+}
+
+h2 {
+    letter-spacing: 1rem;
+    font-size: 2rem;
+}
+
+.container {
+    margin: 40px auto;
+}
+
+#wins, #losses, #guesses-remaining, #guesses, #hidden-word{
+    font-weight: bolder;
+    font-size: 1.5rem;
+}
+
+.image {
+    max-width: 100%;
+    max-height: 100%;
+    border:  2px solid black;
+}
+

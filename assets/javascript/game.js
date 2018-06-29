@@ -3,6 +3,7 @@ var player = {
     wins: 0,
     losses: 0,
     guessesLeft: 8,
+    validGuesses: [],
     guesses: [],
     letters: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'],
     duplicateGuess: false,
@@ -11,8 +12,8 @@ var player = {
         this.guesses.length = 0;
     },
     addGuess: function (guess) {
-        if (validGuess) {
-            this.guesses.push(guess)
+        if ((validGuess) && (!duplicateGuess) && (!computer.chosenWord.includes(guess))) {
+            this.guesses.push(guess);
         }
     },
     checkDuplicateGuess: function (guess) {
@@ -25,24 +26,45 @@ var player = {
     isLetter: function (guess) {
         if (this.letters.includes(guess)) {
             validGuess = true;
-            console.log("valid guess is true");
         } else {
             validGuess = false;
-            console.log("valid guess is false");
             alert("Choose a letter!");
         }
     }
 }
 
 var computer = {
-    hiddenWords: ["first word", "another word"],
     chosenWord: "",
     hiddenLetters: '',
     space: ' ',
+    randomNum: 0,
+    hiddenWords: [{
+        word: "aksis archon prime",
+        image: "./assets/images/Aksis-Archon-Prime.jpg"
+    },{
+        word: "atheon",
+        image: "./assets/images/Atheon.jpg"
+    },{
+        word: "crota", 
+        image: "./assets/images/Crota.jpg"
+    },{
+        word: "oryx",
+        image: "./assets/images/Oryx.jpg"
+    },{
+        word: "black spindle",
+        image: "./assets/images/black-spindle.png"
+    },{
+        word: "no time to explain",
+        image: "./assets/images/no-time-to-explain.png"
+    },{
+        word: "vex mythoclast",
+        image: "./assets/images/vex-mythoclast.png"
+    }],
     
     chooseWord: function () {
-        chosenWord = this.hiddenWords[Math.floor(Math.random() * this.hiddenWords.length)];
-        console.log(chosenWord);
+        randomNum = Math.floor(Math.random() * this.hiddenWords.length);
+        chosenWord = this.hiddenWords[randomNum].word;
+        console.log(chosenWord + " " + randomNum);
     },
     disguiseWord: function (word) {
         this.hiddenLetters = "";
@@ -55,13 +77,23 @@ var computer = {
         }
         console.log(this.hiddenLetters);
     },
+    setHintImage: function () {
+        var img = document.getElementById("img");
+        img.src = this.hiddenWords[randomNum].image;
+    }
+    
 }
+
+// play audio
+var audio = new Audio('./assets/audio/destiny-the-traveler.mp3');
+audio.play();
 
 const resetGame = function () {
     player.guessesLeft = 8;
     computer.chooseWord();
     player.clearGuesses();
     computer.disguiseWord(this.chosenWord);
+    computer.setHintImage();
     updateDOM();
 };
 
@@ -84,7 +116,7 @@ const checkCorrectGuess = function () {
 // if else method to check for game won or lost
 const checkGameOver = function () {
     if (!computer.hiddenLetters.includes("-")) {
-        alert("You Guessed Correctly!");
+        alert("You Guessed Correctly!\n" + chosenWord);
         resetGame();        
         player.wins++;
     }
@@ -97,7 +129,7 @@ const checkGameOver = function () {
 
 // method to check for incorrect letters and update guessesLeft
 const checkIncorrectGuess = function (guess) {
-    if (!chosenWord.includes(guess) && (validGuess)) {
+    if (!chosenWord.includes(guess) && (validGuess) && (!duplicateGuess)) {
         --player.guessesLeft;
     }
 };
@@ -106,7 +138,7 @@ const updateDOM = function () {
     document.querySelector("#wins").innerHTML = player.wins;
     document.querySelector("#losses").innerHTML = player.losses;
     document.querySelector("#guesses-remaining").innerHTML = player.guessesLeft;
-    document.querySelector("#guesses").innerHTML = player.guesses.join(", ");
+    document.querySelector("#guesses").innerHTML = player.guesses.join(" ").toUpperCase();
     document.querySelector("#hidden-word").innerHTML = computer.hiddenLetters;
 }
 
