@@ -145,7 +145,7 @@ const updateDOM = function () {
 var audio = new Audio('./assets/audio/destiny-the-traveler.mp3');
 var activeWindow = false;
 document.onmousemove = function () {
-    if (!activeWindow) {
+    if (activeWindow) {
         console.log("activeWindow = true");
         audio.play();
     }
