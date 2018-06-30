@@ -84,9 +84,7 @@ var computer = {
     
 }
 
-// play audio
-var audio = new Audio('./assets/audio/destiny-the-traveler.mp3');
-audio.play();
+
 
 const resetGame = function () {
     player.guessesLeft = 8;
@@ -140,6 +138,18 @@ const updateDOM = function () {
     document.querySelector("#guesses-remaining").innerHTML = player.guessesLeft;
     document.querySelector("#guesses").innerHTML = player.guesses.join(" ").toUpperCase();
     document.querySelector("#hidden-word").innerHTML = computer.hiddenLetters;
+}
+
+// play audio
+// Deatect active window
+var audio = new Audio('./assets/audio/destiny-the-traveler.mp3');
+var activeWindow = false;
+document.onmousemove = function () {
+    if (!activeWindow) {
+        console.log("activeWindow = true");
+        audio.play();
+    }
+    activeWindow = true;
 }
 
 // Start Game
